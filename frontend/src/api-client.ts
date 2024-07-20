@@ -1,7 +1,6 @@
 import { SingInFormData } from './pages/Login';
 import { RegisterFormData } from './pages/Register';
-import { HotelType } from '../../backend/src/shared/types';
-import { HotelSearchResponse } from '../../backend/src/shared/types';
+import { HotelSearchResponse, HotelType } from '../../backend/src/shared/types';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
@@ -126,7 +125,7 @@ export type SearchParams = {
     factilities?: string[];
     types?: string[];
     stars?: string[];
-    maxPrice?: number;
+    maxPrice?: string;
     sortOption?: string;
 }
 
