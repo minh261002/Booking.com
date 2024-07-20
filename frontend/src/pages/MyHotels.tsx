@@ -1,8 +1,7 @@
-import React from 'react'
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
 import * as apiClient from '../api-client'
-import { BuildingOffice2Icon, MapIcon, PencilIcon, PencilSquareIcon, StarIcon, UserIcon } from '@heroicons/react/20/solid'
+import { BuildingOffice2Icon, MapIcon, PencilSquareIcon, StarIcon, UserIcon } from '@heroicons/react/20/solid'
 
 const MyHotels = () => {
     const { data: hotleData } = useQuery('fetchMyHotles', apiClient.fetchMyHotels, {

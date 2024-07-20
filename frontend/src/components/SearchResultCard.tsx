@@ -1,4 +1,4 @@
-import { ArrowRightEndOnRectangleIcon, StarIcon } from "@heroicons/react/20/solid";
+import { StarIcon } from "@heroicons/react/20/solid";
 import { HotelType } from "../../../backend/src/shared/types";
 import { Link } from "react-router-dom";
 
