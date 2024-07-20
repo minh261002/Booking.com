@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import multer from 'multer';
 import cloudinary from 'cloudinary';
-import { HotelType } from '../models/Hotel';
+import { HotelType } from '../shared/types';
 import Hotel from '../models/Hotel';
 import verifyToken from '../middlewares/auth';
 import { body } from 'express-validator';
