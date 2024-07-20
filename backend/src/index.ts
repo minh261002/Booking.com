@@ -3,14 +3,20 @@ import cors from 'cors';
 import 'dotenv/config';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
+import { v2 as cloudinary } from 'cloudinary';
+import path from 'path';
 
 import userRoutes from './routes/users';
 import authRoutes from './routes/auth';
-import path from 'path';
+import hotelRoutes from './routes/my-hotels';
 
-mongoose.connect(process.env.MONGO_CONNECTION_STRING as string).then(() => {
-    console.log('Connected to MongoDB', process.env.MONGO_CONNECTION_STRING);
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 });
+
+mongoose.connect(process.env.MONGO_CONNECTION_STRING as string);
 
 const app = express();
 
@@ -25,6 +31,11 @@ app.use(cors({
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/my-hotels', hotelRoutes);
+
+app.get("*", (req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'));
+});
 
 const PORT = process.env.PORT || 3000;
 
