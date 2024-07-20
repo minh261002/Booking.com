@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 import { useSearchContext } from "../context/SearchContext"
-import { GlobeAsiaAustraliaIcon, MagnifyingGlassIcon, UserIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { GlobeAsiaAustraliaIcon } from "@heroicons/react/20/solid";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
