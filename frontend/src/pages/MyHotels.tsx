@@ -3,6 +3,32 @@ import { Link } from 'react-router-dom'
 import * as apiClient from '../api-client'
 import { BuildingOffice2Icon, MapIcon, PencilSquareIcon, StarIcon, UserIcon } from '@heroicons/react/20/solid'
 
+export type HotelType = {
+    _id: string;
+    userId: string;
+    name: string;
+    city: string;
+    country: string;
+    description: string;
+    type: string;
+    adultCount: number;
+    childCount: number;
+    factilities: string[];
+    pricePerNight: number;
+    starRating: number;
+    imageUrls: string[];
+    lastUpdated: Date;
+}
+
+export type HotelSearchResponse = {
+    data: HotelType[];
+    pagination: {
+        total: number;
+        page: number;
+        pages: number;
+    };
+}
+
 const MyHotels = () => {
     const { data: hotleData } = useQuery('fetchMyHotles', apiClient.fetchMyHotels, {
         onError: (error) => {

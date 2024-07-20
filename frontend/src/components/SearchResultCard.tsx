@@ -1,5 +1,5 @@
 import { StarIcon } from "@heroicons/react/20/solid";
-import { HotelType } from "../../../backend/src/shared/types";
+import { HotelType } from "../pages/MyHotels";
 import { Link } from "react-router-dom";
 
 type SearchResultCardProps = {

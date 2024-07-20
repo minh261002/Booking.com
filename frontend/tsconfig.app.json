@@ -26,7 +26,6 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "src",
-    "../../backend/src/shared/types.ts"
+    "src"
   ]
 }
