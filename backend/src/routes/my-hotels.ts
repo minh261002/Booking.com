@@ -32,15 +32,7 @@ router.post('/', verifyToken, [
         const imageFiles = req.files as Express.Multer.File[];
         const newHotel: HotelType = req.body;
 
-        const uploadPromise = imageFiles.map(async (image) => {
-            const b64 = Buffer.from(image.buffer).toString('base64');
-            let dataURI = "data:" + image.mimetype + ";base64," + b64;
-
-            const res = await cloudinary.v2.uploader.upload(dataURI);
-            return res.secure_url;
-        });
-
-        const imageUrls = await Promise.all(uploadPromise);
+        const imageUrls = await uploadImages(imageFiles);
 
         newHotel.imageUrls = imageUrls;
         newHotel.lastUpdated = new Date();
@@ -57,4 +49,74 @@ router.post('/', verifyToken, [
     }
 });
 
+router.get('/', verifyToken, async (req: Request, res: Response) => {
+    try {
+        const hotels = await Hotel.find({ userId: req.userId });
+        res.json(hotels);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+router.get('/:id', verifyToken, async (req: Request, res: Response) => {
+    const id = req.params.id.toString();
+    try {
+        const hotel = await Hotel.findById({
+            _id: id,
+            userId: req.userId
+        });
+        if (!hotel) {
+            return res.status(404).json({ message: 'Hotel not found' });
+        }
+
+        res.json(hotel);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+router.put('/:id', verifyToken, upload.array("imageFiles"), async (req: Request, res: Response) => {
+    try {
+        const updatedHotel = req.body;
+        updatedHotel.lastUpdated = new Date();
+
+        const hotel = await Hotel.findOneAndUpdate({
+            _id: req.params.id,
+            userId: req.userId
+        }, updatedHotel, {
+            new: true
+        });
+
+        if (!hotel) {
+            return res.status(404).json({ message: 'Hotel not found' });
+        }
+
+        const files = req.files as Express.Multer.File[];
+        const updatedImageUrls = await uploadImages(files);
+
+        hotel.imageUrls = [...updatedImageUrls, ...(updatedHotel.imageUrls || [])];
+        await hotel.save();
+
+        res.status(200).json(hotel);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});;
+
 export default router;
+
+async function uploadImages(imageFiles: Express.Multer.File[]) {
+    const uploadPromise = imageFiles.map(async (image) => {
+        const b64 = Buffer.from(image.buffer).toString('base64');
+        let dataURI = "data:" + image.mimetype + ";base64," + b64;
+
+        const res = await cloudinary.v2.uploader.upload(dataURI);
+        return res.secure_url;
+    });
+
+    const imageUrls = await Promise.all(uploadPromise);
+    return imageUrls;
+}

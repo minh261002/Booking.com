@@ -19,8 +19,8 @@ const Toast = ({ message, type, onClose }: ToastProps) => {
     }, [onClose]);
 
     const styles = type === 'SUCCESS'
-        ? ' fixed top-4 right-4 z-50 p-4 bg-green-500 text-white shadow-lg flex items-center space-x-4 transform transition-transform duration-300 ease-in-out translate-x-0'
-        : ' fixed top-4 right-4 z-50 p-4 bg-red-500 text-white shadow-lg flex items-center space-x-4 transform transition-transform duration-300 ease-in-out translate-x-0';
+        ? ' fixed top-4 right-4 z-50 p-4 bg-green-500 text-white shadow-lg flex items-center space-x-4 animate-slide-in-right'
+        : ' fixed top-4 right-4 z-50 p-4 bg-red-500 text-white shadow-lg flex items-center space-x-4 animate-slide-in-right';
 
     const Icon = type === 'SUCCESS' ? CheckCircleIcon : ExclamationCircleIcon;
 

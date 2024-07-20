@@ -17,6 +17,7 @@ const TypeSection = () => {
                             :
                             "cursor-pointer bg-gray-200 text-sm rounded-full px-4 py-2 font-semibold duration-300"
                         }
+                        key={type}
                     >
                         <input type="radio" className="hidden" value={type} {...register('type', { required: "This field is required" })} />
                         <span >{type}</span>
