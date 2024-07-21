@@ -3,6 +3,7 @@ import User from '../models/user';
 const router = express.Router();
 import jwt from 'jsonwebtoken';
 import { check, validationResult } from 'express-validator';
+import verifyToken from '../middlewares/auth';
 
 router.post('/register', [
     check('email', 'Email is required').isEmail(),
@@ -36,6 +37,20 @@ router.post('/register', [
         return res.status(200).json({ message: 'User registered successfully', token });
     } catch (error) {
         console.error(error); // Log lỗi để debug
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+router.get('/me', verifyToken, async (req: Request, res: Response) => {
+    const userId = req.userId;
+
+    try {
+        const user = await User.findById(userId).select('-password');
+        if (!user) return res.status(404).json({ message: 'User not found' });
+
+        return res.status(200).json(user);
+    } catch (error) {
+        console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 });
